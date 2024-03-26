@@ -14,7 +14,10 @@ export default createStore({
         },
         setToken(state, payload) {
             state.token = payload;
-        } 
+        },
+        setAuthName(state, payload){//수정후 토큰의 이름값만 바꿔주기
+            state.authUser.name = payload;
+        }
     },
     plugins: [
         createPersistedState({

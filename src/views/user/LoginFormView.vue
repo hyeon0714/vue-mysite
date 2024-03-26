@@ -1,114 +1,89 @@
 <template>
     <div>
         <div id="wrap">
+            <div id="wrap">
+                <AppHeader />
 
-            <div id="header" class="clearfix">
-                <h1>
-                    <a href="">MySite</a>
-                </h1>
-
-                <!-- 
-    <ul>
-        <li>황일영 님 안녕하세요^^</li>
-        <li><a href="" class="btn_s">로그아웃</a></li>
-        <li><a href="" class="btn_s">회원정보수정</a></li>
-    </ul>
-    -->
-                <ul>
-                    <li><a href="" class="btn_s">로그인</a></li>
-                    <li><a href="" class="btn_s">회원가입</a></li>
-                </ul>
-
-            </div>
-            <!-- //header -->
-
-            <div id="nav">
-                <ul class="clearfix">
-                    <li><a href="">입사지원서</a></li>
-                    <li><a href="">게시판</a></li>
-                    <li><a href="">갤러리</a></li>
-                    <li><a href="">방명록</a></li>
-                </ul>
-            </div>
-            <!-- //nav -->
-
-            <div id="container" class="clearfix">
-                <div id="aside">
-                    <h2>회원</h2>
-                    <ul>
-                        <li>회원정보</li>
-                        <li>로그인</li>
-                        <li>회원가입</li>
-                    </ul>
-                </div>
-                <!-- //aside -->
-
-                <div id="content">
-
-                    <div id="content-head">
-                        <h3>로그인</h3>
-                        <div id="location">
-                            <ul>
-                                <li>홈</li>
-                                <li>회원</li>
-                                <li class="last">로그인</li>
-                            </ul>
-                        </div>
-                        <div class="clear"></div>
+                <div id="container" class="clearfix">
+                    <div id="aside">
+                        <h2>회원</h2>
+                        <ul>
+                            <li>회원정보</li>
+                            <li>로그인</li>
+                            <li>회원가입</li>
+                        </ul>
                     </div>
-                    <!-- //content-head -->
+                    <!-- //aside -->
 
-                    <div id="user">
-                        <div id="loginForm">
-                            <form v-on:submit.prevent="login" action="" method="">
+                    <div id="content">
 
-                                <!-- 아이디 -->
-                                <div class="form-group">
-                                    <label class="form-text" for="input-uid">아이디</label>
-                                    <input type="text" id="input-uid" name="" value="" placeholder="아이디를 입력하세요"
-                                        v-model="userVo.id">
-                                </div>
-
-                                <!-- 비밀번호 -->
-                                <div class="form-group">
-                                    <label class="form-text" for="input-pass">비밀번호</label>
-                                    <input type="text" id="input-pass" name="" value="" placeholder="비밀번호를 입력하세요"
-                                        v-model="userVo.password">
-                                </div>
-
-
-                                <!-- 버튼영역 -->
-                                <div class="button-area">
-                                    <button type="submit" id="btn-submit">로그인</button>
-                                </div>
-
-                            </form>
+                        <div id="content-head">
+                            <h3>로그인</h3>
+                            <div id="location">
+                                <ul>
+                                    <li>홈</li>
+                                    <li>회원</li>
+                                    <li class="last">로그인</li>
+                                </ul>
+                            </div>
+                            <div class="clear"></div>
                         </div>
-                        <!-- //loginForm -->
+                        <!-- //content-head -->
+
+                        <div id="user">
+                            <div id="loginForm">
+                                <form v-on:submit.prevent="login" action="" method="">
+
+                                    <!-- 아이디 -->
+                                    <div class="form-group">
+                                        <label class="form-text" for="input-uid">아이디</label>
+                                        <input type="text" id="input-uid" name="" value="" placeholder="아이디를 입력하세요"
+                                            v-model="userVo.id">
+                                    </div>
+
+                                    <!-- 비밀번호 -->
+                                    <div class="form-group">
+                                        <label class="form-text" for="input-pass">비밀번호</label>
+                                        <input type="text" id="input-pass" name="" value="" placeholder="비밀번호를 입력하세요"
+                                            v-model="userVo.password">
+                                    </div>
+
+
+                                    <!-- 버튼영역 -->
+                                    <div class="button-area">
+                                        <button type="submit" id="btn-submit">로그인</button>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!-- //loginForm -->
+                        </div>
+                        <!-- //user -->
                     </div>
-                    <!-- //user -->
+                    <!-- //content  -->
+
                 </div>
-                <!-- //content  -->
+                <!-- //container  -->
+
+                <AppFooter />
 
             </div>
-            <!-- //container  -->
-
-            <div id="footer">
-                Copyright ⓒ 2020 황일영. All right reserved
-            </div>
-            <!-- //footer -->
-
+            <!-- //wrap -->
         </div>
         <!-- //wrap -->
-
     </div>
 </template>
 <script>
-import "@/assets/css/user.css"
+
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
 import axios from 'axios';
 export default {
     name: "LoginFormView",
-    components: {},
+    components: {
+        AppHeader,
+        AppFooter
+    },
     data() {
         return {
             userVo: {
@@ -131,21 +106,28 @@ export default {
                 responseType: 'json' //수신타입
             }).then(response => {
                 console.log(response.data); //수신데이타
-                
-                let authUser = response.data;
-                
-                //token은 헤더에 있다
-                const token = response.headers.authorization.split(" ")[1];
 
-                //vuex에 저장
-                this.$store.commit("setAuthUser", authUser);
-                this.$store.commit("setToken", token);
+                let authUser = response.data.apiData;
 
-                console.log(authUser);
-                console.log(token)
-                
-                //메인으로 이동
-                this.$router.push("/");
+                if (response.data.result == "success") {
+                    //token은 헤더에 있다
+                    const token = response.headers.authorization.split(" ")[1];
+
+                    //vuex에 저장
+                    this.$store.commit("setAuthUser", authUser);
+                    this.$store.commit("setToken", token);
+
+                    console.log(authUser);
+                    console.log(token)
+
+                    //메인으로 이동
+                    this.$router.push("/");
+                } else {
+                    console.log(response.data.message);
+                    alert("아이디와 비밀번호를 확인해주세요")
+                }
+
+
 
             }).catch(error => {
                 console.log(error);
