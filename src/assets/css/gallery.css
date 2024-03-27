@@ -178,3 +178,32 @@
 	float: right;
 }
 
+#addModal {
+	width: 100%; /* 가로전체 */
+	height: 100%; /* 세로전체 */
+	display: none; /* 시작할때 숨김처리 */
+	position: fixed; /* 화면에 고정 */
+	left: 0; /* 왼쪽에서 0에서 시작 */
+	top: 0; /* 위쪽에서 0에서 시작 */
+	z-index: 999; /* 제일위에 */
+	overflow: auto; /* 내용이 많으면 스크롤 생김 */
+	background-color: rgba(0, 0, 0, 0.4); /* 배경이 검정색에 반투명 */
+}
+
+#addModal .modal-content {
+	width: 800px;
+	margin: 100px auto;
+	padding: 0px 20px 20px 20px;
+	border: 1px solid #000000;
+	background-color: #ffffff;
+}
+
+#addModal .modal-content .closeBtn {
+	margin-left: 783px;
+	text-align: right;
+	width: 15px;
+	color: #aaaaaa;
+	font-size: 28px;
+	font-weight: bold;
+	cursor: pointer;
+}

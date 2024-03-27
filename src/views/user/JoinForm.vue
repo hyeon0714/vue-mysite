@@ -113,6 +113,7 @@ export default {
 	},
 	data() {
 		return {
+			check: "",
 			userVo: {
 				no: "",
 				id: "",
@@ -126,27 +127,36 @@ export default {
 		join() {
 			console.log("join")
 			console.log(this.userVo)
-			axios({
-				method: 'post', // put, post, delete 
-				url: 'http://localhost:8888/api/users/joinform',
-				headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
-				//params: guestbookVo, //get방식 파라미터로 값이 전달
-				data: this.userVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
-				responseType: 'json' //수신타입
-			}).then(response => {
-				console.log(response); //수신데이타
 
-				if (response.data.apiData == 1) {
-					console.log("성공")
-					alert("회원가입완료")
-					this.$router.push("/user/loginform");
-				} else {
-					alert(response.data.message);
-				}
+			if (this.check == "ok") {
+				console.log(this.check)
+				axios({
+					method: 'post', // put, post, delete 
+					url: 'http://localhost:8888/api/users/joinform',
+					headers: { "Content-Type": "application/json; charset=utf-8" }, //전송타입
+					//params: guestbookVo, //get방식 파라미터로 값이 전달
+					data: this.userVo, //put, post, delete 방식 자동으로 JSON으로 변환 전달
+					responseType: 'json' //수신타입
+				}).then(response => {
+					console.log(response); //수신데이타
 
-			}).catch(error => {
-				console.log(error);
-			});
+					if (response.data.apiData == 1) {
+						console.log("성공")
+						alert("회원가입완료")
+						this.$router.push("/user/joinok");
+					} else {
+						alert(response.data.message);
+					}
+
+				}).catch(error => {
+					console.log(error);
+				});
+			}else {
+				console.log(this.check)
+				alert("아이디 중복확인을 해주세요");
+			}
+
+
 
 		},
 		idCheck() {
@@ -163,6 +173,15 @@ export default {
 					responseType: 'json' //수신타입
 				}).then(response => {
 					console.log(response); //수신데이타
+					if (response.data.apiData == 1) {
+						this.check = ""
+						alert("중복된아이디 입니다");
+
+					} else {
+						this.check = "ok"
+						alert("사용할수 있는 아이디입니다")
+
+					}
 				}).catch(error => {
 					console.log(error);
 				});
